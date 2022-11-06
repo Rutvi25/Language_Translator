@@ -1,10 +1,10 @@
 import './App.css';
-import Translate from './component/Translate';
+import Translator from './component/Translate';
 
 function App() {
   return (
     <div className="App">
-      <Translate />
+      <Translator />
     </div>
   );
 }

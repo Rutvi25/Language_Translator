@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "./Translate.css";
+// const { Translate } = require("@google-cloud/translate");
 
-const Translate = () => {
+const Translator = () => {
   const [inputText, setInputText] = useState();
+  let url = `https://translation.googleapis.com/language/translate/v2/languages?key=AIzaSyBb6DsR8FZ0xWMsqhy8Do0zynkd2PciqH8`;
+
+  fetch(url).then(res => (res.json()).then(data => console.log(data)))
   return (
     <>
       <h1>Language Translator</h1>
@@ -45,4 +49,4 @@ const Translate = () => {
   );
 };
 
-export default Translate;
+export default Translator;
