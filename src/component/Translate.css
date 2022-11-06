@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.sub-container {
+  width: 45%;
+}
+.icons {
+  display: flex;
+  justify-content: space-evenly;
+}
