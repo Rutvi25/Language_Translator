@@ -22,6 +22,24 @@ const Translator = () => {
       res.json().then((data) => setLanguages(data.data.languages))
     );
   }, [url]);
+  let url1 = `https://translation.googleapis.com/language/translate/v2/?key=${apiKey}`;
+  const translate = () => {
+    fetch(url1, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        q: inputText,
+        target: targetLanguage,
+      }),
+    }).then((res) =>
+      res.json().then((data) => {
+        setTranslatedText(data.data.translations[0].translatedText);
+        setSourceLanguage(data.data.translations[0].detectedSourceLanguage);
+      })
+    );
+  };
   return (
     <>
       <h1>Language Translator</h1>
@@ -47,9 +65,12 @@ const Translator = () => {
             placeholder='Enter your text here'
           />
           <div className='icons'>
-            <i className='bi bi-clipboard'></i>
+            <i
+              onClick={() => navigator.clipboard.writeText(inputText)}
+              className='bi bi-clipboard'
+            ></i>
             <i className='bi bi-volume-up'></i>
-            <i className='bi bi-x-lg'></i>
+            <i onClick={() => setInputText('')} className='bi bi-x-lg'></i>
           </div>
         </div>
         <div>
@@ -75,13 +96,16 @@ const Translator = () => {
             value={translatedText}
           />
           <div className='icons'>
-            <i className='bi bi-clipboard'></i>
+            <i
+              onClick={() => navigator.clipboard.writeText(translatedText)}
+              className='bi bi-clipboard'
+            ></i>
             <i className='bi bi-volume-up'></i>
-            <i className='bi bi-x-lg'></i>
+            <i onClick={() => setTranslatedText('')} className='bi bi-x-lg'></i>
           </div>
         </div>
       </div>
-      <button type='submit' onClick={() => setTranslatedText('hello')}>
+      <button type='submit' onClick={translate}>
         Translate
       </button>
     </>
