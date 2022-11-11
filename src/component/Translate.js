@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
+import Icons from './Icons';
 import './Translate.css';
 
 const Translator = () => {
@@ -8,7 +9,9 @@ const Translator = () => {
   const [sourceLanguage, setSourceLanguage] = useState(navigator.language);
   const [targetLanguage, setTargetLanguage] = useState('hi');
   const apiKey = process.env.REACT_APP_API_KEY;
+  // console.log(sourceLanguageList[0])
   let url = `https://translation.googleapis.com/language/translate/v2/`;
+  // fetching a list of languages
   useEffect(() => {
     fetch(url + `languages?key=${apiKey}`, {
       method: 'POST',
@@ -37,29 +40,23 @@ const Translator = () => {
     }).then((res) =>
       res.json().then((data) => {
         setTranslatedText(data.data.translations[0].translatedText);
+        console.log(data.data.translations[0]);
         setSourceLanguage(data.data.translations[0].detectedSourceLanguage);
       })
     );
-  };
-  // sound functionality
-  const sound = (text) => {
-    console.log('sound', text);
-    const utterance = new SpeechSynthesisUtterance(text);
-    speechSynthesis.speak(utterance);
   };
   // debounce function
   const debounce = (func) => {
     let timer;
     return function (...args) {
-      const context = this;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         timer = null;
-        func.apply(context, args);
+        func.apply(this, args);
       }, 500);
     };
   };
-  const optimizedFn = useCallback(debounce(translate), []);
+  const optimizedFn = useMemo(() => debounce(translate), []);
   // exchange function
   const exchange = () => {
     const tempText = inputText;
@@ -70,46 +67,29 @@ const Translator = () => {
     setTargetLanguage(tempLanguage);
     console.log('exchange');
   };
+  const options = languages.map((language) => (
+    <option key={language.language} value={language.language}>
+      {language.name}
+    </option>
+  ));
   return (
     <>
       <h1>Language Translator</h1>
       <div className='container'>
         <div className='sub-container'>
+          {/* select source language */}
           <select
             className='form-select form-select-sm'
             onChange={(e) => setSourceLanguage(e.target.value)}
             value={sourceLanguage}
           >
-            {languages.map((language) => (
-              <option key={language.language} value={language.language}>
-                {language.name}
-              </option>
-            ))}
+            {options}
           </select>
-          <br />
-          <textarea
-            rows={4}
-            className='form-control'
-            value={inputText}
-            onChange={(e) => {
-              setInputText(e.target.value);
-              optimizedFn(e.target.value, targetLanguage);
-            }}
-            placeholder='Enter your text here'
-          />
-          <div className='icons'>
-            <i
-              onClick={() => navigator.clipboard.writeText(inputText)}
-              className='bi bi-clipboard'
-            ></i>
-            <i onClick={() => sound(inputText)} className='bi bi-volume-up'></i>
-            <i onClick={() => setInputText('')} className='bi bi-x-lg'></i>
+          {/* exchange button */}
+          <div className='exchange-btn' onClick={exchange}>
+            <i className='bi bi-arrow-left-right'></i>
           </div>
-        </div>
-        <div onClick={exchange}>
-          <i className='bi bi-arrow-left-right'></i>
-        </div>
-        <div className='sub-container'>
+          {/* select target language */}
           <select
             className='form-select form-select-sm'
             onChange={(e) => {
@@ -118,29 +98,38 @@ const Translator = () => {
             }}
             value={targetLanguage}
           >
-            {languages.map((language) => (
-              <option key={language.language} value={language.language}>
-                {language.name}
-              </option>
-            ))}
+            {options}
           </select>
-          <br />
-          <textarea
-            rows={4}
-            className='form-control'
-            placeholder='Translation'
-            value={translatedText}
-          />
-          <div className='icons'>
-            <i
-              onClick={() => navigator.clipboard.writeText(translatedText)}
-              className='bi bi-clipboard'
-            ></i>
-            <i
-              onClick={() => sound(translatedText)}
-              className='bi bi-volume-up'
-            ></i>
-            <i onClick={() => setTranslatedText('')} className='bi bi-x-lg'></i>
+        </div>
+        <hr />
+        <div className='sub-container'>
+          <div className='textarea-div'>
+            <textarea
+              maxLength={5}
+              rows={4}
+              className='form-control'
+              placeholder='Enter your text here'
+              value={inputText}
+              onChange={(e) => {
+                setInputText(e.target.value);
+                optimizedFn(e.target.value, targetLanguage);
+              }}
+            />
+            <Icons showChar={true} text={inputText} setText={setInputText} />
+          </div>
+          <div className='vertical-divider'></div>
+          <div className='textarea-div t1'>
+            <textarea
+              rows={4}
+              className='form-control'
+              placeholder='Translation'
+              value={translatedText}
+            />
+            <Icons
+              showChar={false}
+              text={translatedText}
+              setText={setTranslatedText}
+            />
           </div>
         </div>
       </div>

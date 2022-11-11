@@ -1,11 +1,51 @@
 .container {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  box-shadow: 2px 2px 5px 2px #d3d3d3;
+  border-radius: 10px;
+}
+h1 {
+  color: #808080;
+  padding: 10px;
 }
 .sub-container {
-  width: 45%;
+  display: flex;
+  justify-content: space-between;
 }
+.sub-container select {
+  border: none;
+  padding: 10px;
+}
+.exchange-btn {
+  padding: 10px;
+}
+hr {
+  margin: 1px 0;
+}
+.vertical-divider {
+  border-left: 1px solid lightgray;
+}
+.textarea-div {
+  width: 50%;
+}
+.textarea-div textarea {
+  border: none;
+}
+.functions {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px;
+}      
 .icons {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+}
+.icons i {
+  padding: 0 5px;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+}
+.wordcount {
+  font-size: 15px;
+  color: #808080;
 }
