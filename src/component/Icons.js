@@ -11,12 +11,12 @@ const Icons = ({ text, setText, showChar }) => {
   return (
     <div className='functions'>
       {text ? <div className='icons'>
-        <i onClick={() => setText('')} className='bi bi-x-lg'></i>
+        <i onClick={() => setText('')} className='fa-solid fa-trash-can'></i>
         <i
           onClick={() => navigator.clipboard.writeText(text)}
-          className='bi bi-clipboard'
+          className='fa-regular fa-copy'
         ></i>
-        <i onClick={() => sound(text)} className='bi bi-volume-up'></i>
+        <i onClick={() => sound(text)} className='fa-solid fa-volume-high'></i>
       </div> : <></>}
       {showChar ? <div className='wordcount'>{characterCount}/5</div> : null}
     </div>

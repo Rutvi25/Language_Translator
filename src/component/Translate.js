@@ -9,7 +9,6 @@ const Translator = () => {
   const [sourceLanguage, setSourceLanguage] = useState(navigator.language);
   const [targetLanguage, setTargetLanguage] = useState('hi');
   const apiKey = process.env.REACT_APP_API_KEY;
-  // console.log(sourceLanguageList[0])
   let url = `https://translation.googleapis.com/language/translate/v2/`;
   // fetching a list of languages
   useEffect(() => {
@@ -27,6 +26,7 @@ const Translator = () => {
   }, [url, apiKey]);
   // translate functionality
   const translate = (text, lang) => {
+    setTranslatedText('Translating...');
     console.log('translating...');
     fetch(url + `?key=${apiKey}`, {
       method: 'POST',
@@ -103,7 +103,7 @@ const Translator = () => {
         </div>
         <hr />
         <div className='sub-container'>
-          <div className='textarea-div'>
+          <div className='textarea-div source-container'>
             <textarea
               maxLength={5}
               rows={4}
@@ -118,10 +118,20 @@ const Translator = () => {
             <Icons showChar={true} text={inputText} setText={setInputText} />
           </div>
           <div className='vertical-divider'></div>
-          <div className='textarea-div t1'>
+          <div
+            className={
+              translatedText
+                ? 'textarea-div translation-container'
+                : 'textarea-div'
+            }
+          >
             <textarea
               rows={4}
-              className='form-control'
+              className={
+                translatedText
+                  ? 'form-control translation-area'
+                  : 'form-control'
+              }
               placeholder='Translation'
               value={translatedText}
             />
