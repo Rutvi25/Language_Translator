@@ -32,7 +32,7 @@ const Translator = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      },
+      },  
       body: JSON.stringify({
         q: text,
         target: lang,
@@ -87,7 +87,7 @@ const Translator = () => {
           </select>
           {/* exchange button */}
           <div className='exchange-btn' onClick={exchange}>
-            <i className='bi bi-arrow-left-right'></i>
+            <i className='fa-solid fa-arrow-right-arrow-left'></i>
           </div>
           {/* select target language */}
           <select
