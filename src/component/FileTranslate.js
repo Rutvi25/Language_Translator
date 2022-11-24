@@ -16,13 +16,12 @@ const FileTranslate = () => {
   function translatefile() {
     console.log('translated file...');
     fetch(
-      `https://translation.googleapis.com/v3/projects/translator-367713/locations/us-central1:translateDocument`,
+      `https://translation.googleapis.com/v3/projects/${process.env.REACT_APP_PROJECT_ID}/locations/us-central1:translateDocument`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer ya29.a0AeTM1ied8eGv7MctD9OtUEBzQ8Wt_gA1p9tixr395ZxSl4orzqYMtHfmoGFmMfLnf6F9pABcAjB3W6JiqqI1TxYT3cKTAJQCqjer3qGhL0UobT43hjDm1ARdKzrx0tFeS9NdAubDsBSy983KsU7dAl8mtPcnaCgYKAXcSARISFQHWtWOmbKTlWj4a8vCc4EF4Pwbz8A0163',
+          Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
         },
         body: JSON.stringify({
           source_language_code: 'en',
@@ -34,7 +33,7 @@ const FileTranslate = () => {
           },
           document_output_config: {
             gcsDestination: {
-              outputUriPrefix: 'gs://translated_file/demoFile.xlsx/',
+              outputUriPrefix: 'gs://translated_file/demo-File.xlsx/',
             },
           },
         }),
