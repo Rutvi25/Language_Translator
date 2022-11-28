@@ -56,6 +56,7 @@ const Translator = () => {
       }, 500);
     };
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const optimizedFn = useMemo(() => debounce(translate), []);
   // exchange function
   const exchange = () => {
