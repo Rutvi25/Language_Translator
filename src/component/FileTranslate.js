@@ -15,11 +15,10 @@ const FileTranslate = () => {
       console.log('Error: ', error);
     };
   }
-  const target='gu'
   function download() {
     let filen = fileName.split('.').slice(0, -1).join('.');
     console.log('>>> name without ext.', filen);
-    window.location.href = `https://storage.cloud.google.com/translator-367713.appspot.com/demo-file.xlsx/translator-367713.appspot.com_${filen}_${target}_translations.xlsx`;
+    window.location.href = `https://storage.cloud.google.com/translator-367713.appspot.com/demo-file.xlsx/translator-367713.appspot.com_${filen}_hi_translations.xlsx`;
   }
   async function translatefile() {
     console.log('translated file...');
